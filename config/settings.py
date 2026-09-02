@@ -1,7 +1,6 @@
 
 import os
 from pathlib import Path
-from dotenv import load_dotenv
 
 # ==================================================
 # BASE DIRECTORY
@@ -9,27 +8,21 @@ from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Load .env for local development
-load_dotenv(BASE_DIR / ".env")
-
 
 # ==================================================
-# SECURITY - TEMPORARY DEBUG MODE
+# SECURITY
 # ==================================================
 
-SECRET_KEY = os.environ.get(
-    "SECRET_KEY",
-    "django-insecure-development-key-change-me"
-)
+SECRET_KEY = "CHANGE-THIS-TO-A-LONG-RANDOM-SECRET-KEY"
 
-# FORCE DEBUG ON
-# TEMPORARY: Use only while debugging the Vercel error
 DEBUG = True
 
-# FORCE ALLOW ALL HOSTS
-# TEMPORARY: This helps determine whether ALLOWED_HOSTS
-# is causing the HTTP 400 error.
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "jp3dhub-v2.vercel.app",
+    "jp3dhub-v2-q7dupcnr3-elango0246.vercel.app",
+]
 
 
 # ==================================================
@@ -77,13 +70,10 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-
         "DIRS": [
             BASE_DIR / "templates"
         ],
-
         "APP_DIRS": True,
-
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.request",
@@ -111,29 +101,17 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
 
-        "NAME": os.environ.get(
-            "DB_NAME",
-            "postgres"
-        ),
+        "NAME": "postgres",
 
-        "USER": os.environ.get(
-            "DB_USER"
-        ),
+        "USER": "postgres.qzbxsxziyvxajfymkoyi",
 
-        "PASSWORD": os.environ.get(
-            "DB_PASSWORD"
-        ),
+        # PUT YOUR NEW SUPABASE PASSWORD HERE
+        "PASSWORD": "elango@AI@0246",
 
-        "HOST": os.environ.get(
-            "DB_HOST"
-        ),
+        "HOST": "aws-0-ap-northeast-1.pooler.supabase.com",
 
-        "PORT": os.environ.get(
-            "DB_PORT",
-            "6543"
-        ),
+        "PORT": "6543",
 
-        # Serverless/Vercel
         "CONN_MAX_AGE": 0,
 
         "OPTIONS": {
@@ -154,19 +132,16 @@ AUTH_PASSWORD_VALIDATORS = [
             "django.contrib.auth.password_validation."
             "UserAttributeSimilarityValidator",
     },
-
     {
         "NAME":
             "django.contrib.auth.password_validation."
             "MinimumLengthValidator",
     },
-
     {
         "NAME":
             "django.contrib.auth.password_validation."
             "CommonPasswordValidator",
     },
-
     {
         "NAME":
             "django.contrib.auth.password_validation."
@@ -184,7 +159,6 @@ LANGUAGE_CODE = "en-us"
 TIME_ZONE = "Asia/Kolkata"
 
 USE_I18N = True
-
 USE_TZ = True
 
 
@@ -206,7 +180,6 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 # ==================================================
 
 MEDIA_URL = "/media/"
-
 MEDIA_ROOT = BASE_DIR / "media"
 
 
@@ -224,29 +197,3 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024
 # ==================================================
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-
-# ==================================================
-# PRODUCTION SECURITY
-# ==================================================
-#
-# This block will NOT execute while DEBUG=True.
-# Once debugging is finished, set DEBUG=False
-# and configure production security properly.
-#
-
-if not DEBUG:
-
-    SECURE_CONTENT_TYPE_NOSNIFF = True
-
-    SESSION_COOKIE_SECURE = True
-
-    CSRF_COOKIE_SECURE = True
-
-    X_FRAME_OPTIONS = "DENY"
-
-    SECURE_HSTS_SECONDS = 31536000
-
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-
-    SECURE_HSTS_PRELOAD = True
